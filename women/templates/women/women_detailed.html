@@ -1,0 +1,10 @@
+{% extends 'women/base.html' %}
+
+{% block content %}
+<article class="blog-post">
+    <h2 class="blog-post-title mb-1">{{ women.title }}</h2>
+    <p class="blog-post-meta">{{ women.edited }} by <a href="#">Mark</a></p>
+    <img src="{{ women.photo.url }}" class="img-thumbnail" width="200">
+    <p>{{ women.text }}</p>
+</article>
+{% endblock content %}

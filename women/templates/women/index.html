@@ -1,0 +1,17 @@
+{% extends 'women/base.html' %}
+{% block content %}
+
+<h1>Posts</h1>
+
+{% for women in posts %}
+<article class="blog-post">
+    <h2 class="blog-post-title mb-1"><a href="{{ women.get_absolute_url }}">{{ women.title }}</a></h2>
+    <p class="blog-post-meta">{{ women.edited }} by <a href="#">Mark</a></p>
+    <img src="{{ women.photo.url }}" class="img-thumbnail" width="200">
+    <p>{{ women.text|truncatechars:400 }}</p>
+    {% if not forloop.last %}
+    <hr>
+    {% endif %}
+</article>
+{% endfor %}
+{% endblock content %}
