@@ -12,9 +12,11 @@
             <span class="visually-hidden">(current)</span>
           </a>
         </li>
+        {% if user.is_authenticated %}
         <li class="nav-item">
-          <a class="nav-link" href="#">Features</a>
+          <a class="nav-link" href="{% url 'add_women' %}">Додати статтю</a>
         </li>
+        {% endif %}
         <li class="nav-item">
           <a class="nav-link" href="{% url 'about' %}">About</a>
         </li>
@@ -26,7 +28,9 @@
             </button>
             <ul class="dropdown-menu">
               {% for category in categories %}
-              <li><a class="dropdown-item" href="{{ category.get_absolute_url }}">{{ category }}</a></li>
+                {% if category.women_set.count > 0 %}
+                <li><a class="dropdown-item" href="{{ category.get_absolute_url }}">{{ category }}</a></li>
+                {% endif %}
               {% endfor %}
             </ul>
             </div>
