@@ -1,5 +1,8 @@
+from django.contrib.auth import logout, login
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import render
+from django.contrib.auth.views import LoginView
+from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView
 
@@ -60,3 +63,35 @@ class AddWomen(LoginRequiredMixin, DataMixin, CreateView):
 
 def about(request):
     return render(request, 'women/about.html')
+
+
+class RegisterUser(DataMixin, CreateView):
+    form_class = UserCreationForm
+    template_name = 'women/register.html'
+    success_url = reverse_lazy('home')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        c_def = self.get_user_context(**kwargs, title='Реєстрація')
+        return dict(list(c_def.items()) + list(context.items()))
+
+    def form_valid(self, form):
+        new_user = form.save()
+        login(self.request, new_user)
+        return redirect('home')
+
+
+class LoginUser(DataMixin, LoginView):
+    form_class = AuthenticationForm
+    template_name = 'women/login.html'
+
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        c_def = self.get_user_context(**kwargs, title='Автентифікація')
+        return dict(list(c_def.items()) + list(context.items()))
+
+
+def logout_user(request):
+    logout(request)
+    return redirect('login')
