@@ -3,6 +3,7 @@ from django.contrib import admin
 
 from blog import settings
 from django.urls import path, include
+from django.urls import re_path
 
 urlpatterns = [
     path('admin/', admin.site.urls, name='admin'),
